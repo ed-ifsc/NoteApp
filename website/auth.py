@@ -17,13 +17,13 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user:
             if check_password_hash(user.password, password):
-                flash('Logged in successfully!', category='success')
+                flash('Login feito com sucesso!', category='success')
                 login_user(user, remember=True)
                 return redirect(url_for('views.home'))
             else:
-                flash('Incorrect password, try again.', category='error')
+                flash('Senha incorreta!, try again.', category='error')
         else:
-            flash('Email does not exist.', category='error')
+            flash('Email não existe.', category='error')
 
     return render_template("login.html", user=current_user)
 
@@ -45,13 +45,13 @@ def sign_up():
 
         user = User.query.filter_by(email=email).first()
         if user:
-            flash('Email already exists.', category='error')
+            flash('Email já existe.', category='error')
         elif len(email) < 4:
-            flash('Email must be greater than 3 characters.', category='error')
+            flash('Email deve ter mais de 3 caracteres.', category='error')
         elif len(first_name) < 2:
-            flash('First name must be greater than 1 character.', category='error')
+            flash('O nome deve ter mais de 1 caracter.', category='error')
         elif password1 != password2:
-            flash('Passwords don\'t match.', category='error')
+            flash('Senhas não conferem.', category='error')
         elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
         else:
@@ -60,7 +60,7 @@ def sign_up():
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
-            flash('Account created!', category='success')
+            flash('Conta criada!', category='success')
             return redirect(url_for('views.home'))
 
     return render_template("sign_up.html", user=current_user)
